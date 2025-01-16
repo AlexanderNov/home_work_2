@@ -43,8 +43,8 @@ class Hub:
     def __iter__(self):
         return iter(self._items)
 
-    def __getitem__(self, id):
-        return self._items[id]
+    def __getitem__(self, i):
+        return self._items[i]
 
     def find_by_id(self, i):
         """
