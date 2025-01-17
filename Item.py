@@ -49,7 +49,7 @@ class Item:
         self._cost = value
 
     def __lt__(self, other):
-        return self._cost < other._cost
+        return self.cost < other.cost
 
     def copy(self):
         return Item(
