@@ -1,6 +1,7 @@
 from datetime import datetime
 from Item import Item
 
+
 class Hub:
     _instance = None
 
@@ -34,14 +35,12 @@ class Hub:
         return f'Все предметы на складе items={self._items}, date="{self._date}"'
 
     def __repr__(self):
-        first_three_items = ', '.join(str(item) for item in self._items[:3])  # поставил str(item) чтобы не выводились теги
+        first_three_items = ', '.join(
+            str(item) for item in self._items[:3])  # поставил str(item) чтобы не выводились теги
         return f'Первые 3 предмета на складе items=[{first_three_items}]'
 
     def __len__(self):
         return len(self._items)
-
-    def __iter__(self):
-        return iter(self._items)
 
     def __getitem__(self, i):
         return self._items[i]
@@ -100,7 +99,9 @@ class Hub:
         elif len(dates) == 2:
             start_date, end_date = dates
             return [item for item in self._items if
-                    datetime.strptime(start_date, '%Y-%m-%d') <= datetime.strptime(item.dispatch_time, '%Y-%m-%d') <= datetime.strptime(end_date, '%Y-%m-%d')]
+                    datetime.strptime(start_date, '%Y-%m-%d') <= datetime.strptime(item.dispatch_time,
+                                                                                   '%Y-%m-%d') <= datetime.strptime(
+                        end_date, '%Y-%m-%d')]
         else:
             raise ValueError('Передано неправильное количество аргументов.')
 

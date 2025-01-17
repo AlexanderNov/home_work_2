@@ -2,9 +2,10 @@ import unittest
 from Item import Item
 from Hub import Hub
 
+
 class TestHub(unittest.TestCase):
     def test_hub_singleton(self):
-        """Проверка того, что hub - синглтон""" # небольшая документация к тесту
+        """Проверка того, что hub - синглтон"""  # небольшая документация к тесту
         self.assertTrue(Hub() is Hub())
 
     def test_len(self):
@@ -84,7 +85,7 @@ class TestHub(unittest.TestCase):
         self.assertEqual(0, len(hub))
 
     def test_set_date(self):
-        """Проверка того, что устанавливается время"""
+        """Проверка того, что устанавливается setter и возвращается getter дата"""
         hub = Hub()
         hub.date = "2099-01-01"
         self.assertEqual("2099-01-01", hub.date)
@@ -135,6 +136,7 @@ class TestHub(unittest.TestCase):
         hub.add_item(item3, "2031-04-16")
         self.assertEqual([item3, item2], hub.find_most_valuable(2))
 
+
 class TestItem(unittest.TestCase):
     # Реализуйте проверку того что у разных Items разные id
     def test_item_id(self):
@@ -178,33 +180,34 @@ class TestItem(unittest.TestCase):
     def test_add_tags(self):
         """Проверка того, что можно добавить 2 тега"""
         item1 = Item('name', 'description', 'dispatch_time', {'0'})
-        item1.add_tag({'1','2'})
-        self.assertEqual({'0','1','2'}, item1.get_tags())
+        item1.add_tag({'1', '2'})
+        self.assertEqual({'0', '1', '2'}, item1.get_tags())
 
     def test_rm_tags(self):
         """Проверка того, что можно удалить 2 тега"""
-        item1 = Item('name', 'description', 'dispatch_time', {'0','1','2'})
-        item1.rm_tag({'1','2'})
+        item1 = Item('name', 'description', 'dispatch_time', {'0', '1', '2'})
+        item1.rm_tag({'1', '2'})
         self.assertEqual({'0'}, item1.get_tags())
 
     def test_is_tagged_str(self):
         """Проверка того, что можно проверить наличие 1 тега"""
-        item1 = Item('name', 'description', 'dispatch_time', {'0','1','2'})
+        item1 = Item('name', 'description', 'dispatch_time', {'0', '1', '2'})
         self.assertEqual(True, item1.is_tagged('1'))
 
     def test_is_tagged_container(self):
         """Проверка того, что можно проверить наличие сразу нескольких тегов"""
-        item1 = Item('name', 'description', 'dispatch_time', {'0','1','2'})
-        self.assertEqual(True, item1.is_tagged({'0','1','2'}))
+        item1 = Item('name', 'description', 'dispatch_time', {'0', '1', '2'})
+        self.assertEqual(True, item1.is_tagged({'0', '1', '2'}))
 
     def test_copy(self):
         """Проверка того, что метод copy(self) возвращает новый item с таким же описанием, ценой и именем, но с другим id"""
-        item1 = Item('name', 'description', 'dispatch_time', {'0','1','2'})
+        item1 = Item('name', 'description', 'dispatch_time', {'0', '1', '2'})
         item2 = item1.copy()
         self.assertEqual(item1.name, item2.name)
         self.assertEqual(item1.description, item2.description)
         self.assertEqual(item1.cost, item2.cost)
         self.assertTrue(item1._id != item2._id)
+
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

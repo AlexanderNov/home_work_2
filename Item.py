@@ -23,7 +23,6 @@ class Item:
     def get_tags(self):
         return self._tags
 
-
     def __str__(self):
         return f'(id={self._id}, name="{self.name}", dispatch_time="{self.dispatch_time}")'
 
@@ -53,8 +52,8 @@ class Item:
 
     def copy(self):
         return Item(
-            name = self.name,
-            description = self.description,
-            dispatch_time = self.dispatch_time,
-            tags = set(self._tags)
+            name=self.name,
+            description=self.description,
+            dispatch_time=self.dispatch_time,
+            tags=set(self._tags)
         )

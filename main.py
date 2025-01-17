@@ -24,7 +24,6 @@ hub.add_item(item3, "2031-04-16")
 hub.add_item(item4, "2032-09-01")
 hub.add_item(item5, "2027-09-01")
 
-
 # Выбросите все объекты с названиями начинающиеся на "a" или "A", записав их в отдельный лист A
 A = []
 to_drop = []
@@ -54,7 +53,7 @@ hub.drop_items(to_drop)
 print(Outdated)
 print(hub)
 
-#Выбросите топ-3 объектов из hub, записав их в MostValuable Оставшиеся на складе объекты запишите в Others
+# Выбросите топ-3 объектов из hub, записав их в MostValuable Оставшиеся на складе объекты запишите в Others
 item1 = Item("Galaxy S101", "super puper smartphone", "2029-01-01", {"прелесть", "розовый"})
 item2 = Item("iPhone 42", "super puper iPhone", "2028-09-23", {"светящийся", "волшебный"})
 item3 = Item("Xiaomi 77", "super puper Xiaomi", "2027-07-29", {"китайский", "надежный"})
