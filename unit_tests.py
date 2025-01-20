@@ -4,61 +4,57 @@ from Hub import Hub
 
 
 class TestHub(unittest.TestCase):
+    def setUp(self):
+        self.hub = Hub()
+
     def test_hub_singleton(self):
         """Проверка того, что hub - синглтон"""  # небольшая документация к тесту
         self.assertTrue(Hub() is Hub())
 
     def test_len(self):
         """Проверка того, что при добавлении предметов меняется значение len(item)"""
-        hub = Hub()
         for i in range(5):
-            hub.add_item(Item('name', 'description', 'dispatch_time', {1}), 'date')
-        self.assertEqual(len(hub), 5)
+            self.hub.add_item(Item('name', 'description', 'dispatch_time', {1}), 'date')
+        self.assertEqual(len(self.hub), 5)
 
     def test_hub_is_iterable(self):
         """Проверка того, что к предметам в hub теперь можно обращаться по hub[id]"""
         item = Item('name', 'description', 'dispatch_time', {1})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        self.assertEqual(item, hub[0])
+        self.hub.add_item(item, "2025-01-09")
+        self.assertEqual(item, self.hub[0])
 
     def test_find_by_id_positive(self):
         """Проверка поиска предметов по id"""
         item = Item('name', 'description', 'dispatch_time', {"1"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        self.assertEqual((item._id, item), hub.find_by_id(item._id))
+        self.hub.add_item(item, "2025-01-09")
+        self.assertEqual((item._id, item), self.hub.find_by_id(item._id))
 
     def test_find_by_id_negative(self):
         """Проверка того, что вернется [-1, None], если ввести несуществующий id"""
-        hub = Hub()
-        self.assertEqual([-1, None], hub.find_by_id(1000))
+        self.assertEqual([-1, None], self.hub.find_by_id(1000))
 
     def test_find_by_tags(self):
         """Проверка поиска предметов по тегам"""
         item = Item('name', 'description', 'dispatch_time', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        self.assertEqual([item], hub.find_by_tags({"плохой"}))
+        self.hub.add_item(item, "2025-01-09")
+        self.assertEqual([item], self.hub.find_by_tags({"плохой"}))
 
     def test_rm_by_id(self):
         """Проверка удаления предмета из hub по id"""
         item = Item('name', 'description', 'dispatch_time', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        before = len(hub)
-        hub.rm_item(0)
-        after = len(hub)
+        self.hub.add_item(item, "2025-01-09")
+        before = len(self.hub)
+        self.hub.rm_item(0)
+        after = len(self.hub)
         self.assertTrue(after == before - 1)
 
     def test_rm_by_item(self):
         """Проверка удаления предмета из hub по item"""
         item = Item('name', 'description', 'dispatch_time', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        before = len(hub)
-        hub.rm_item(item)
-        after = len(hub)
+        self.hub.add_item(item, "2025-01-09")
+        before = len(self.hub)
+        self.hub.rm_item(item)
+        after = len(self.hub)
         self.assertTrue(after == before - 1)
 
     def test_drop_items(self):
@@ -66,50 +62,44 @@ class TestHub(unittest.TestCase):
         item1 = Item('name', 'description', 'dispatch_time', {"плохой"})
         item2 = Item('name', 'description', 'dispatch_time', {"плохой"})
         item3 = Item('name', 'description', 'dispatch_time', {"плохой"})
-        hub = Hub()
-        hub.add_item(item1, "2025-01-09")
-        hub.add_item(item2, "2025-01-09")
-        hub.add_item(item3, "2025-01-09")
-        before = len(hub)
+        self.hub.add_item(item1, "2025-01-09")
+        self.hub.add_item(item2, "2025-01-09")
+        self.hub.add_item(item3, "2025-01-09")
+        before = len(self.hub)
         items_to_drop = [item1, item3]
-        hub.drop_items(items_to_drop)
-        after = len(hub)
+        self.hub.drop_items(items_to_drop)
+        after = len(self.hub)
         self.assertTrue(after == before - 2)
 
     def test_clear_items(self):
         """Проверка того, что очищается hub от items"""
         item = Item('name', 'description', 'dispatch_time', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        hub.clear_items()
-        self.assertEqual(0, len(hub))
+        self.hub.add_item(item, "2025-01-09")
+        self.hub.clear_items()
+        self.assertEqual(0, len(self.hub))
 
     def test_set_date(self):
         """Проверка того, что устанавливается setter и возвращается getter дата"""
-        hub = Hub()
-        hub.date = "2099-01-01"
-        self.assertEqual("2099-01-01", hub.date)
+        self.hub.date = "2099-01-01"
+        self.assertEqual("2099-01-01", self.hub.date)
 
     def test_find_by_date(self):
         """Проверка того, что по одной дате находится предмет с датой меньше или равной"""
         item = Item('name', 'description', '2025-01-15', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        self.assertEqual([item], hub.find_by_date('2025-01-15'))
+        self.hub.add_item(item, "2025-01-09")
+        self.assertEqual([item], self.hub.find_by_date('2025-01-15'))
 
     def test_find_by_two_date(self):
         """Проверка того, что по двум датам находится предмет с датой между или равной указанным датам"""
         item = Item('name', 'description', '2025-01-15', {"плохой"})
-        hub = Hub()
-        hub.add_item(item, "2025-01-09")
-        self.assertEqual([item], hub.find_by_date('2025-01-10', '2025-01-20'))
+        self.hub.add_item(item, "2025-01-09")
+        self.assertEqual([item], self.hub.find_by_date('2025-01-10', '2025-01-20'))
 
     def test_add_item_negative(self):
         """Проверка того, что возникает TypeError если добавлять в Hub item не класса Item"""
-        hub = Hub()
         itm = object
         with self.assertRaises(TypeError):
-            hub.add_item(itm, "2025-01-09")
+            self.hub.add_item(itm, "2025-01-09")
 
     def test_find_most_valuable(self):
         """Проверка поиска самого дорогого предмета в hub"""
@@ -117,10 +107,9 @@ class TestHub(unittest.TestCase):
         item2 = Item("iPhone 42", "super puper iPhone", "2028-09-23", {"светящийся", "волшебный"})
         item1.cost = 60
         item2.cost = 90
-        hub = Hub()
-        hub.add_item(item1, "2025-01-09")
-        hub.add_item(item2, "2031-02-15")
-        self.assertEqual([item2], hub.find_most_valuable())
+        self.hub.add_item(item1, "2025-01-09")
+        self.hub.add_item(item2, "2031-02-15")
+        self.assertEqual([item2], self.hub.find_most_valuable())
 
     def test_find_most_valuable_2_items(self):
         """Проверка поиска двух самых дорогих предметов в hub"""
@@ -130,11 +119,10 @@ class TestHub(unittest.TestCase):
         item1.cost = 60
         item2.cost = 90
         item3.cost = 130
-        hub = Hub()
-        hub.add_item(item1, "2025-01-09")
-        hub.add_item(item2, "2031-02-15")
-        hub.add_item(item3, "2031-04-16")
-        self.assertEqual([item3, item2], hub.find_most_valuable(2))
+        self.hub.add_item(item1, "2025-01-09")
+        self.hub.add_item(item2, "2031-02-15")
+        self.hub.add_item(item3, "2031-04-16")
+        self.assertEqual([item3, item2], self.hub.find_most_valuable(2))
 
 
 class TestItem(unittest.TestCase):
